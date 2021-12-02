@@ -1,0 +1,15 @@
+{
+	"IsMarkedForDeletion": false,
+	"Material": "21",
+	"MovingAveragePrice": "",
+	"PlannedPrice": "",
+	"PriceLastChangeDate": "",
+	"PriceUnitQty": "",
+	"StandardPrice": "",
+	"ValuationArea": "DE10",
+	"ValuationClass": "",
+	"cursor": "/Users/latona2/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L259",
+	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Accounting",
+	"level": "INFO",
+	"time": "2021-12-02T12:37:27.481117+09:00"
+}

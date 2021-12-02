@@ -1,0 +1,16 @@
+{
+	"AccountDetnProductGroup": "X6",
+	"IsMarkedForDeletion": false,
+	"ItemCategoryGroup": "PSTE",
+	"Material": "A001",
+	"PriceSpecificationProductGroup": "",
+	"ProductDistributionChnl": "10",
+	"ProductHierarchy": "",
+	"ProductSalesOrg": "1010",
+	"SalesMeasureUnit": "",
+	"SupplyingPlant": "1010",
+	"cursor": "/Users/latona2/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L289",
+	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).SalesOrganization",
+	"level": "INFO",
+	"time": "2021-12-02T21:19:55.137763+09:00"
+}
