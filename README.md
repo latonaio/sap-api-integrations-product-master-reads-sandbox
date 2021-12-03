@@ -38,3 +38,96 @@ sap-api-integrations-product-master-reads は、外部システムがクラウ�
 }
 
 ```
+
+## SAP API Bussiness Hub の API の選択的コール
+
+Latona および AION の SAP 関連リソースでは、Inputs フォルダ下の sample.json の accepter に取得したいデータの種別（＝APIの種別）を入力し、指定することができます。  
+なお、同 accepter にAllの値を入力することで、全データ（＝全APIの種別）をまとめて取得することができます。  
+
+* sample.jsonの記載例(1)  
+
+accepter において 下記の例のように、データの種別（＝APIの種別）を指定します。  
+ここでは、"Product", "Plant", "Accounting" が指定されています。    
+  
+```
+  "api_schema": "sap.s4.beh.product.v1.Product.Created.v1",
+  "accepter": ["Product", "Plant", "Accounting"],
+  "material_code": "21",
+  "deleted": false
+```
+  
+* 全データを取得する際ののsample.jsonの記載例(2)  
+
+全データを取得する場合、sample.json は以下のように記載します。  
+
+```
+  "api_schema": "sap.s4.beh.product.v1.Product.Created.v1",
+  "accepter": ["All"],
+  "material_code": "21",
+  "deleted": false
+```
+
+## 指定されたデータ種別のコール
+
+accepter におけるデータ種別の指定に基づいて SAP_API_Caller 内の caller.go で API がコールされます。  
+caller.go の以下の箇所が、指定された API をコールするソースコードです。  
+
+```
+func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl string, accepter []string) {
+	wg := &sync.WaitGroup{}
+	wg.Add(len(accepter))
+	for _, fn := range accepter {
+		switch fn {
+		case "Product":
+			func() {
+				c.Product(product)
+				wg.Done()
+			}()
+		case "Plant":
+			func() {
+				c.Plant(product, plant)
+				wg.Done()
+			}()
+		case "MRPArea":
+			func() {
+				c.MRPArea(product, plant, mrpArea)
+				wg.Done()
+			}()
+		case "Procurement":
+			func() {
+				c.Procurement(product, plant)
+				wg.Done()
+			}()
+		case "WorkScheduling":
+			func() {
+				c.WorkScheduling(product, plant)
+				wg.Done()
+			}()
+		case "SalesPlant":
+			func() {
+				c.SalesPlant(product, plant)
+				wg.Done()
+			}()
+		case "Accounting":
+			func() {
+				c.Accounting(product, valuationArea)
+				wg.Done()
+			}()
+		case "SalesOrganization":
+			func() {
+				c.SalesOrganization(product, productSalesOrg, productDistributionChnl)
+				wg.Done()
+			}()
+		case "ProductDesc":
+			func() {
+				c.ProductDesc(product)
+				wg.Done()
+			}()
+		default:
+			wg.Done()
+		}
+	}
+
+	wg.Wait()
+}
+```
