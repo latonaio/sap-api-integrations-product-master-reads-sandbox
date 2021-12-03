@@ -41,15 +41,16 @@ type EC_MC struct {
 			ActualValidatedTime      string `json:"actual_validated_time"`
 		} `json:"work"`
 	} `json:"production_order"`
-	APISchema     string `json:"api_schema"`
-	MaterialCode  string `json:"material_code"`
-	Plant         string `json:"plant/supplier"`
-	Stock         string `json:"stock"`
-	DocumentType  string `json:"document_type"`
-	DocumentNo    string `json:"document_no"`
-	PlannedDate   string `json:"planned_date"`
-	ValidatedDate string `json:"validated_date"`
-	Deleted       bool   `json:"deleted"`
+	APISchema     string   `json:"api_schema"`
+	Accepter      []string `json:"accepter"`
+	MaterialCode  string   `json:"material_code"`
+	Plant         string   `json:"plant/supplier"`
+	Stock         string   `json:"stock"`
+	DocumentType  string   `json:"document_type"`
+	DocumentNo    string   `json:"document_no"`
+	PlannedDate   string   `json:"planned_date"`
+	ValidatedDate string   `json:"validated_date"`
+	Deleted       bool     `json:"deleted"`
 }
 
 type SDC struct {
@@ -149,7 +150,8 @@ type SDC struct {
 			IsMarkedForDeletion bool   `json:"IsMarkedForDeletion"`
 		} `json:"ValuationArea"`
 	} `json:"material"`
-	APISchema    string `json:"api_schema"`
-	MaterialCode string `json:"material_code"`
-	Deleted      bool   `json:"deleted"`
+	APISchema    string   `json:"api_schema"`
+	Accepter     []string `json:"accepter"`
+	MaterialCode string   `json:"material_code"`
+	Deleted      bool     `json:"deleted"`
 }

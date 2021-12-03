@@ -10,10 +10,24 @@ import (
 func main() {
 	l := logger.NewLogger()
 	fr := sap_api_input_reader.NewFileReader()
-	inoutSDC := fr.ReadSDC("./Inputs/SDC_Product_Master_sample1.json")
+	inoutSDC := fr.ReadSDC("./Inputs/SDC_Product_Master_sample5.json")
 	caller := sap_api_caller.NewSAPAPICaller(
 		"https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/", l,
 	)
+
+	// TODO: 一旦関数指定のリクエストは、１関数のみ
+	accepter := inoutSDC.Accepter
+	if len(inoutSDC.Accepter) == 0 {
+		accepter[0] = "All"
+	}
+
+	if accepter[0] == "All" {
+		accepter = []string{
+			"Product", "Plant", "MRPArea", "Procurement",
+			"WorkScheduling", "WorkScheduling", "SalesPlant",
+			"Accounting", "SalesOrganization", "ProductDesc",
+		}
+	}
 
 	caller.AsyncGetProductMaster(
 		inoutSDC.Product.Product,
@@ -22,5 +36,6 @@ func main() {
 		inoutSDC.Product.Accounting.ValuationArea,
 		inoutSDC.Product.SalesOrganization.ProductSalesOrg,
 		inoutSDC.Product.SalesOrganization.ProductDistributionChnl,
+		accepter,
 	)
 }

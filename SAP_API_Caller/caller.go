@@ -26,46 +26,60 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl string) {
+func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl string, accepter []string) {
 	wg := &sync.WaitGroup{}
-
-	wg.Add(9)
-	func() {
-		c.Product(product)
-		wg.Done()
-	}()
-	func() {
-		c.Plant(product, plant)
-		wg.Done()
-	}()
-	func() {
-		c.MRPArea(product, plant, mrpArea)
-		wg.Done()
-	}()
-	func() {
-		c.Procurement(product, plant)
-		wg.Done()
-	}()
-	func() {
-		c.WorkScheduling(product, plant)
-		wg.Done()
-	}()
-	func() {
-		c.SalesPlant(product, plant)
-		wg.Done()
-	}()
-	func() {
-		c.Accounting(product, valuationArea)
-		wg.Done()
-	}()
-	func() {
-		c.SalesOrganization(product, productSalesOrg, productDistributionChnl)
-		wg.Done()
-	}()
-	func() {
-		c.ProductDesc(product)
-		wg.Done()
-	}()
+	wg.Add(len(accepter))
+	for _, fn := range accepter {
+		switch fn {
+		case "Product":
+			func() {
+				c.Product(product)
+				wg.Done()
+			}()
+		case "Plant":
+			func() {
+				c.Plant(product, plant)
+				wg.Done()
+			}()
+		case "MRPArea":
+			func() {
+				c.MRPArea(product, plant, mrpArea)
+				wg.Done()
+			}()
+		case "Procurement":
+			func() {
+				c.Procurement(product, plant)
+				wg.Done()
+			}()
+		case "WorkScheduling":
+			func() {
+				c.WorkScheduling(product, plant)
+				wg.Done()
+			}()
+		case "SalesPlant":
+			func() {
+				c.SalesPlant(product, plant)
+				wg.Done()
+			}()
+		case "Accounting":
+			func() {
+				c.Accounting(product, valuationArea)
+				wg.Done()
+			}()
+		case "SalesOrganization":
+			func() {
+				c.SalesOrganization(product, productSalesOrg, productDistributionChnl)
+				wg.Done()
+			}()
+		case "ProductDesc":
+			func() {
+				c.ProductDesc(product)
+				wg.Done()
+			}()
+		default:
+			wg.Done()
+		}
+	}
 
 	wg.Wait()
 }
