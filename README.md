@@ -15,6 +15,38 @@ sap-api-integrations-product-master-reads は、主にエッジコンピュー�
 ## クラウド環境での利用
 sap-api-integrations-product-master-reads は、外部システムがクラウド環境である場合にSAPと統合するときにおいても、利用可能なように設計されています。
 
+
+## 本レポジトリ が 対応する API サービス
+sap-api-integrations-product-master-reads が対応する APIサービス は、次のものです。
+
+* APIサービス概要説明 URL: https://api.sap.com/api/OP_API_PRODUCT_SRV_0001/overview  
+* APIサービス名(=baseURL): API_PRODUCT_SRV
+
+## 本レポジトリ に 含まれる API名
+sap-api-integrations-product-master-reads には、次の API をコールするためのリソースが含まれています。  
+
+* A_Product（品目マスタ - 一般データ）
+* A_ProductPlant（品目マスタ - プラントデータ）
+* A_ProductPlantMRPArea（品目マスタ - MRPエリアデータ）
+* A_ProductPlantProcurement（品目マスタ - 購買データ）
+* A_ProductWorkScheduling（品目マスタ - 作業計画データ）
+* A_ProductPlantSales（品目マスタ - 販売プラントデータ）
+* A_ProductValuationAccount（品目マスタ - 評価エリアデータ）
+* A_ProductSalesDelivery（品目マスタ - 販売組織データ）
+* A_ProductDescription(Product='{Product}',Language='{Language}')（品目マスタ - テキストデータ）  
+
+## API への 値入力条件 の 初期値
+sap-api-integrations-product-master-reads において、API への値入力条件の初期値は、入力ファイルレイアウトの種別毎に、次の通りとなっています。  
+
+### SDC レイアウト
+
+* inoutSDC.Product.Product（品目）
+* inoutSDC.Product.Plant.Plant（プラント）
+* inoutSDC.Product.Plant.MRPArea.MRPArea（MRPエリア）
+* inoutSDC.Product.Accounting.ValuationArea（評価エリア）
+* inoutSDC.Product.SalesOrganization.ProductSalesOrg（販売組織）
+* inoutSDC.Product.SalesOrganization.ProductDistributionChnl（流通チャネル）
+
 ## Output  
 本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 品目マスタ の 一般データ が取得された結果の JSON の例です。  
@@ -42,7 +74,7 @@ sap-api-integrations-product-master-reads は、外部システムがクラウ�
 ## SAP API Bussiness Hub の API の選択的コール
 
 Latona および AION の SAP 関連リソースでは、Inputs フォルダ下の sample.json の accepter に取得したいデータの種別（＝APIの種別）を入力し、指定することができます。  
-なお、同 accepter にAllの値を入力することで、全データ（＝全APIの種別）をまとめて取得することができます。  
+なお、同 accepter にAll(もしくは空白)の値を入力することで、全データ（＝全APIの種別）をまとめて取得することができます。  
 
 * sample.jsonの記載例(1)  
 
@@ -69,8 +101,8 @@ accepter において 下記の例のように、データの種別（＝APIの�
 
 ## 指定されたデータ種別のコール
 
-accepter におけるデータ種別の指定に基づいて SAP_API_Caller 内の caller.go で API がコールされます。  
-caller.go の以下の箇所が、指定された API をコールするソースコードです。  
+accepter における データ種別 の指定に基づいて SAP_API_Caller 内の caller.go で API がコールされます。  
+caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
 func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl string, accepter []string) {
