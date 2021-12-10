@@ -15,13 +15,8 @@ func main() {
 		"https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/", l,
 	)
 
-	// TODO: 一旦関数指定のリクエストは、１関数のみ
 	accepter := inoutSDC.Accepter
-	if len(inoutSDC.Accepter) == 0 {
-		accepter[0] = "All"
-	}
-
-	if accepter[0] == "All" {
+	if len(accepter) == 0 || accepter[0] == "All" {
 		accepter = []string{
 			"Product", "Plant", "MRPArea", "Procurement",
 			"WorkScheduling", "WorkScheduling", "SalesPlant",
