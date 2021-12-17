@@ -47,29 +47,6 @@ sap-api-integrations-product-master-reads において、API への値入力条�
 * inoutSDC.Product.SalesOrganization.ProductSalesOrg（販売組織）
 * inoutSDC.Product.SalesOrganization.ProductDistributionChnl（流通チャネル）
 
-## Output  
-本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
-以下の sample.json の例は、SAP 品目マスタ の 一般データ が取得された結果の JSON の例です。  
-以下の項目のうち、"BaseUnit" ～ "WeightUnit" は、/SAP_API_Output_Formatter/type.go 内 の Type Product {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
-
-```
-{
-	"BaseUnit": "AU",
-	"Division": "00",
-	"GrossWeight": "0.000",
-	"Material": "A001",
-	"ProductGroup": "A001",
-	"ProductStandardID": "",
-	"Product_desc": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product('A001')/to_Description",
-	"SizeOrDimensionText": "",
-	"ValidityStartDate": "",
-	"WeightUnit": "KG",
-	"cursor": "/Users/kyotatashiro/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Product",
-	"level": "INFO",
-	"time": "2021-11-26T15:50:30.156715+09:00"
-}
-```
-
 ## SAP API Bussiness Hub の API の選択的コール
 
 Latona および AION の SAP 関連リソースでは、Inputs フォルダ下の sample.json の accepter に取得したいデータの種別（＝APIの種別）を入力し、指定することができます。  
@@ -159,5 +136,28 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 	}
 
 	wg.Wait()
+}
+```
+
+## Output  
+本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+以下の sample.json の例は、SAP 品目マスタ の 一般データ が取得された結果の JSON の例です。  
+以下の項目のうち、"BaseUnit" ～ "WeightUnit" は、/SAP_API_Output_Formatter/type.go 内 の Type Product {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+
+```
+{
+	"BaseUnit": "AU",
+	"Division": "00",
+	"GrossWeight": "0.000",
+	"Material": "A001",
+	"ProductGroup": "A001",
+	"ProductStandardID": "",
+	"Product_desc": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product('A001')/to_Description",
+	"SizeOrDimensionText": "",
+	"ValidityStartDate": "",
+	"WeightUnit": "KG",
+	"cursor": "/Users/kyotatashiro/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Product",
+	"level": "INFO",
+	"time": "2021-11-26T15:50:30.156715+09:00"
 }
 ```
