@@ -19,7 +19,7 @@ func main() {
 	if len(accepter) == 0 || accepter[0] == "All" {
 		accepter = []string{
 			"Product", "Plant", "MRPArea", "Procurement",
-			"WorkScheduling", "WorkScheduling", "SalesPlant",
+			"WorkScheduling", "SalesPlant",
 			"Accounting", "SalesOrganization", "ProductDesc",
 		}
 	}
