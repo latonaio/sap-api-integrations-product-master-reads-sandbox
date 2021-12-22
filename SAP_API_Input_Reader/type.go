@@ -58,9 +58,9 @@ type SDC struct {
 	Result        bool   `json:"result"`
 	RedisKey      string `json:"redis_key"`
 	Filepath      string `json:"filepath"`
-	Product       struct {
+	Product      struct {
 		Product             string `json:"Material"`
-		ProductDescription  string `json:"Product_desc"`
+		ProductDesc         string `json:"Product_desc"`
 		BaseUnit            string `json:"BaseUnit"`
 		ValidityStartDate   string `json:"ValidityStartDate"`
 		ProductGroup        string `json:"ProductGroup"`
@@ -149,6 +149,10 @@ type SDC struct {
 			PlannedPrice        string `json:"PlannedPrice"`
 			IsMarkedForDeletion bool   `json:"IsMarkedForDeletion"`
 		} `json:"ValuationArea"`
+		ProductDescription struct {
+			Language           string `json:"Language"`
+			ProductDescription string `json:"ProductDescription"`
+		} `json:"ProductDescription"`
 	} `json:"material"`
 	APISchema    string   `json:"api_schema"`
 	Accepter     []string `json:"accepter"`

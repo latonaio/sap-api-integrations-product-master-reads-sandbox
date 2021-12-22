@@ -26,13 +26,13 @@
 			"MinimumLotSizeQuantity": "",
 			"MaximumLotSizeQuantity": "",
 			"FixedLotSizeQuantity": "",
-			"IsBatchManagementRequired": true,
+			"IsBatchManagementRequired": null,
 			"ProcurementType": "",
-			"IsInternalBatchManaged": true,
+			"IsInternalBatchManaged": null,
 			"GoodsIssueUnit": "",
 			"MaterialFreightGroup": "",
 			"ProductLogisticsHandlingGroup": "",
-			"IsMarkedForDeletion": false,
+			"IsMarkedForDeletion": null,
 			"MRPArea": {
 				"MRPArea": "KANBAN1010",
 				"MRPType": "",
@@ -82,7 +82,7 @@
 			"ItemCategoryGroup": "",
 			"SalesMeasureUnit": "",
 			"ProductHierarchy": "",
-			"IsMarkedForDeletion": false
+			"IsMarkedForDeletion": null
 		},
 		"ValuationArea": {
 			"ValuationArea": "",
@@ -92,7 +92,11 @@
 			"MovingAveragePrice": "",
 			"PriceLastChangeDate": "",
 			"PlannedPrice": "",
-			"IsMarkedForDeletion": false
+			"IsMarkedForDeletion": null
+		},
+		"ProductDescription": {
+			"Language": "",
+			"ProductDescription": ""
 		}
 	},
 	"api_schema": "sap.s4.beh.product.v1.Product.Created.v1",

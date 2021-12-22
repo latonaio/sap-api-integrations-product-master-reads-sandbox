@@ -123,6 +123,7 @@ type SalesOrganization struct {
 }
 
 type ProductDesc struct {
-	Product            string `json:"Material"`
-	ProductDescription string `json:"Product_desc"`
+	Product            string `json:"Product"`
+	Language           string `json:"Language"`
+	ProductDescription string `json:"ProductDescription"`
 }
