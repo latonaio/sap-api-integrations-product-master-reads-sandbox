@@ -8,11 +8,11 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func ConvertToProduct(raw []byte, l *logger.Logger) (*Product, error) {
-	pm := &responses.Product{}
+func ConvertToGeneral(raw []byte, l *logger.Logger) ([]General, error) {
+	pm := &responses.General{}
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to Product. unmarshal error: %w", err)
+		return nil, xerrors.Errorf("cannot convert to General. unmarshal error: %w", err)
 	}
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
@@ -20,9 +20,10 @@ func ConvertToProduct(raw []byte, l *logger.Logger) (*Product, error) {
 	if len(pm.D.Results) > 1 {
 		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := pm.D.Results[0]
-
-	return &Product{
+	general := make([]General, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		general = append(general, General{
 		Product:             data.Product,
 		ProductDescription:  data.ToDescription.Deferred.URI,
 		BaseUnit:            data.BaseUnit,
@@ -33,8 +34,12 @@ func ConvertToProduct(raw []byte, l *logger.Logger) (*Product, error) {
 		WeightUnit:          data.WeightUnit,
 		SizeOrDimensionText: data.SizeOrDimensionText,
 		ProductStandardID:   data.ProductStandardID,
-	}, nil
+		})
+	}
+
+	return general, nil
 }
+
 
 func ConvertToProductDesc(raw []byte, l *logger.Logger) (*ProductDesc, error) {
 	desc := &responses.ProductDesc{}
@@ -49,21 +54,22 @@ func ConvertToProductDesc(raw []byte, l *logger.Logger) (*ProductDesc, error) {
 	}, nil
 }
 
-func ConvertToPlant(raw []byte, l *logger.Logger) (*Plant, error) {
-	pd := &responses.Plant{}
-	err := json.Unmarshal(raw, pd)
+func ConvertToPlant(raw []byte, l *logger.Logger) ([]Plant, error) {
+	pm := &responses.Plant{}
+	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to Plant. unmarshal error: %#v", err)
+		return nil, xerrors.Errorf("cannot convert to Plant. unmarshal error: %w", err)
 	}
-	if len(pd.D.Results) == 0 {
+	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(pd.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pd.D.Results))
+	if len(pm.D.Results) > 1 {
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := pd.D.Results[0]
-
-	return &Plant{
+	plant := make([]Plant, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		plant = append(plant, Plant{
 		Product:                       data.Product,
 		Plant:                         data.Plant,
 		PurchasingGroup:               data.PurchasingGroup,
@@ -83,24 +89,28 @@ func ConvertToPlant(raw []byte, l *logger.Logger) (*Plant, error) {
 		MaterialFreightGroup:          data.MaterialFreightGroup,
 		ProductLogisticsHandlingGroup: data.ProductLogisticsHandlingGroup,
 		IsMarkedForDeletion:           data.IsMarkedForDeletion,
-	}, nil
+		})
+	}
+
+	return plant, nil
 }
 
-func ConvertToMRPArea(raw []byte, l *logger.Logger) (*MRPArea, error) {
-	ma := &responses.MRPArea{}
-	err := json.Unmarshal(raw, ma)
+func ConvertToMRPArea(raw []byte, l *logger.Logger) ([]MRPArea, error) {
+	pm := &responses.MRPArea{}
+	err := json.Unmarshal(raw, pm)
 	if err != nil {
 		return nil, xerrors.Errorf("cannot convert to MRPArea. unmarshal error: %w", err)
 	}
-	if len(ma.D.Results) == 0 {
+	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(ma.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(ma.D.Results))
+	if len(pm.D.Results) > 1 {
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := ma.D.Results[0]
-
-	return &MRPArea{
+	mRPArea := make([]MRPArea, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		mRPArea = append(mRPArea, MRPArea{
 		Product:                       data.Product,
 		Plant:                         data.Plant,
 		MRPArea:                       data.MRPArea,
@@ -123,10 +133,13 @@ func ConvertToMRPArea(raw []byte, l *logger.Logger) (*MRPArea, error) {
 		PlannedDeliveryDurationInDays: data.PlannedDeliveryDurationInDays,
 		StorageLocation:               data.StorageLocation,
 		IsMarkedForDeletion:           data.IsMarkedForDeletion,
-	}, nil
+		})
+	}
+
+	return mRPArea, nil
 }
 
-func ConvertToProcurement(raw []byte, l *logger.Logger) (*Procurement, error) {
+func ConvertToProcurement(raw []byte, l *logger.Logger) ([]Procurement, error) {
 	pm := &responses.Procurement{}
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
@@ -136,33 +149,38 @@ func ConvertToProcurement(raw []byte, l *logger.Logger) (*Procurement, error) {
 		return nil, xerrors.New("Result data is not exist")
 	}
 	if len(pm.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := pm.D.Results[0]
-
-	return &Procurement{
+	procurement := make([]Procurement, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		procurement = append(procurement, Procurement{
 		Product:                     data.Product,
 		Plant:                       data.Plant,
 		IsAutoPurOrdCreationAllowed: data.IsAutoPurOrdCreationAllowed,
 		IsSourceListRequired:        data.IsSourceListRequired,
-	}, nil
+		})
+	}
+
+	return procurement, nil
 }
 
-func ConvertToWorkScheduling(raw []byte, l *logger.Logger) (*WorkScheduling, error) {
-	ws := &responses.WorkScheduling{}
-	err := json.Unmarshal(raw, ws)
+func ConvertToWorkScheduling(raw []byte, l *logger.Logger) ([]WorkScheduling, error) {
+	pm := &responses.WorkScheduling{}
+	err := json.Unmarshal(raw, pm)
 	if err != nil {
 		return nil, xerrors.Errorf("cannot convert to WorkScheduling. unmarshal error: %w", err)
 	}
-	if len(ws.D.Results) == 0 {
+	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(ws.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(ws.D.Results))
+	if len(pm.D.Results) > 1 {
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := ws.D.Results[0]
-
-	return &WorkScheduling{
+	workScheduling := make([]WorkScheduling, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		workScheduling = append(workScheduling, WorkScheduling{
 		Product:                       data.Product,
 		Plant:                         data.Plant,
 		ProductionInvtryManagedLoc:    data.ProductionInvtryManagedLoc,
@@ -172,68 +190,54 @@ func ConvertToWorkScheduling(raw []byte, l *logger.Logger) (*WorkScheduling, err
 		ProdnOrderIsBatchRequired:     data.ProdnOrderIsBatchRequired,
 		MatlCompIsMarkedForBackflush:  data.MatlCompIsMarkedForBackflush,
 		ProductionSchedulingProfile:   data.ProductionSchedulingProfile,
-	}, nil
+		})
+	}
+
+	return workScheduling, nil
 }
 
-func ConvertToSalesPlant(raw []byte, l *logger.Logger) (*SalesPlant, error) {
-	pps := &responses.SalesPlant{}
-	err := json.Unmarshal(raw, pps)
-	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to SalesPlant. unmarshal error: %w", err)
-	}
-	if len(pps.D.Results) == 0 {
-		return nil, xerrors.New("Result data is not exist")
-	}
-	if len(pps.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pps.D.Results))
-	}
-	data := pps.D.Results[0]
-
-	return &SalesPlant{
-		Product:               data.Product,
-		Plant:                 data.Plant,
-		LoadingGroup:          data.LoadingGroup,
-		AvailabilityCheckType: data.AvailabilityCheckType,
-	}, nil
-}
-
-func ConvertToProcurment(raw []byte, l *logger.Logger) (*Procurement, error) {
-	pm := &responses.Procurement{}
+func ConvertToSalesPlant(raw []byte, l *logger.Logger) ([]SalesPlant, error) {
+	pm := &responses.SalesPlant{}
 	err := json.Unmarshal(raw, pm)
 	if err != nil {
-		return nil, xerrors.Errorf("cannot convert to Procurement. unmarshal error: %w", err)
+		return nil, xerrors.Errorf("cannot convert to SalesPlant. unmarshal error: %w", err)
 	}
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
 	if len(pm.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := pm.D.Results[0]
+	salesPlant := make([]SalesPlant, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		salesPlant = append(salesPlant, SalesPlant{
+		Product:               data.Product,
+		Plant:                 data.Plant,
+		LoadingGroup:          data.LoadingGroup,
+		AvailabilityCheckType: data.AvailabilityCheckType,
+		})
+	}
 
-	return &Procurement{
-		Product:                     data.Product,
-		Plant:                       data.Plant,
-		IsAutoPurOrdCreationAllowed: data.IsAutoPurOrdCreationAllowed,
-		IsSourceListRequired:        data.IsSourceListRequired,
-	}, nil
+	return salesPlant, nil
 }
 
-func ConvertToAccounting(raw []byte, l *logger.Logger) (*Accounting, error) {
-	pad := &responses.Accounting{}
-	err := json.Unmarshal(raw, pad)
+func ConvertToAccounting(raw []byte, l *logger.Logger) ([]Accounting, error) {
+	pm := &responses.Accounting{}
+	err := json.Unmarshal(raw, pm)
 	if err != nil {
 		return nil, xerrors.Errorf("cannot convert to Accounting. unmarshal error: %w", err)
 	}
-	if len(pad.D.Results) == 0 {
+	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(pad.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pad.D.Results))
+	if len(pm.D.Results) > 1 {
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := pad.D.Results[0]
-
-	return &Accounting{
+	accounting := make([]Accounting, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		accounting = append(accounting, Accounting{
 		Product:             data.Product,
 		ValuationArea:       data.ValuationArea,
 		ValuationClass:      data.ValuationClass,
@@ -243,24 +247,28 @@ func ConvertToAccounting(raw []byte, l *logger.Logger) (*Accounting, error) {
 		PriceLastChangeDate: data.PriceLastChangeDate,
 		PlannedPrice:        data.PlannedPrice,
 		IsMarkedForDeletion: data.IsMarkedForDeletion,
-	}, nil
+		})
+	}
+
+	return accounting, nil
 }
 
-func ConvertToSalesOrganization(raw []byte, l *logger.Logger) (*SalesOrganization, error) {
-	psd := &responses.SalesOrganization{}
-	err := json.Unmarshal(raw, psd)
+func ConvertToSalesOrganization(raw []byte, l *logger.Logger) ([]SalesOrganization, error) {
+	pm := &responses.SalesOrganization{}
+	err := json.Unmarshal(raw, pm)
 	if err != nil {
 		return nil, xerrors.Errorf("cannot convert to SalesOrganization. unmarshal error: %w", err)
 	}
-	if len(psd.D.Results) == 0 {
+	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(psd.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(psd.D.Results))
+	if len(pm.D.Results) > 1 {
+		l.Error("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
 	}
-	data := psd.D.Results[0]
-
-	return &SalesOrganization{
+	salesOrganization := make([]SalesOrganization, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		salesOrganization = append(salesOrganization, SalesOrganization{
 		Product:                        data.Product,
 		ProductSalesOrg:                data.ProductSalesOrg,
 		ProductDistributionChnl:        data.ProductDistributionChnl,
@@ -271,5 +279,8 @@ func ConvertToSalesOrganization(raw []byte, l *logger.Logger) (*SalesOrganizatio
 		SalesMeasureUnit:               data.SalesMeasureUnit,
 		ProductHierarchy:               data.ProductHierarchy,
 		IsMarkedForDeletion:            data.IsMarkedForDeletion,
-	}, nil
+		})
+	}
+
+	return salesOrganization, nil
 }

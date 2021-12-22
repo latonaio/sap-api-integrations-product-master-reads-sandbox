@@ -1,8 +1,0 @@
-{
-	"Material": "A001",
-	"Product_desc": "請求対象勘定",
-	"cursor": "/Users/latona2/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L319",
-	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).ProductDesc",
-	"level": "INFO",
-	"time": "2021-12-02T12:22:14.727701+09:00"
-}

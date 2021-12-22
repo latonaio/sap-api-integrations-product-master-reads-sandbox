@@ -10,7 +10,7 @@ import (
 func main() {
 	l := logger.NewLogger()
 	fr := sap_api_input_reader.NewFileReader()
-	inoutSDC := fr.ReadSDC("./Inputs/SDC_Product_Master_Work_Scheduling_sample.json")
+	inoutSDC := fr.ReadSDC("./Inputs/SDC_Product_Master_Product_Desc_sample.json")
 	caller := sap_api_caller.NewSAPAPICaller(
 		"https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/", l,
 	)
@@ -18,7 +18,7 @@ func main() {
 	accepter := inoutSDC.Accepter
 	if len(accepter) == 0 || accepter[0] == "All" {
 		accepter = []string{
-			"Product", "Plant", "MRPArea", "Procurement",
+			"General", "Plant", "MRPArea", "Procurement",
 			"WorkScheduling", "SalesPlant",
 			"Accounting", "SalesOrganization", "ProductDesc",
 		}

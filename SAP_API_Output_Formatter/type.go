@@ -11,7 +11,7 @@ type ProductMaster struct {
 	Deleted       string `json:"deleted"`
 }
 
-type Product struct {
+type General struct {
 	Product             string `json:"Material"`
 	ProductDescription  string `json:"Product_desc"`
 	BaseUnit            string `json:"BaseUnit"`

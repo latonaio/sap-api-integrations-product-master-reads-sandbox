@@ -1,0 +1,19 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L273",
+	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Accounting",
+	"level": "INFO",
+	"message": [
+		{
+			"Material": "21",
+			"ValuationArea": "DE10",
+			"ValuationClass": "",
+			"StandardPrice": "",
+			"PriceUnitQty": "",
+			"MovingAveragePrice": "",
+			"PriceLastChangeDate": "",
+			"PlannedPrice": "",
+			"IsMarkedForDeletion": false
+		}
+	],
+	"time": "2021-12-22T10:43:29.210025+09:00"
+}

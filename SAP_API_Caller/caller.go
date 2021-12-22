@@ -31,9 +31,9 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
 		switch fn {
-		case "Product":
+		case "General":
 			func() {
-				c.Product(product)
+				c.General(product)
 				wg.Done()
 			}()
 		case "Plant":
@@ -84,8 +84,8 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 	wg.Wait()
 }
 
-func (c *SAPAPICaller) Product(product string) {
-	data, err := c.callProductSrvAPIRequirementProduct("A_Product", product)
+func (c *SAPAPICaller) General(product string) {
+	data, err := c.callProductSrvAPIRequirementGeneral("A_Product", product)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -93,12 +93,12 @@ func (c *SAPAPICaller) Product(product string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementProduct(api, product string) (*sap_api_output_formatter.Product, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementGeneral(api, product string) ([]sap_api_output_formatter.General, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
 	c.setHeaderAPIKeyAccept(req)
-	c.getQueryWithProduct(req, product)
+	c.getQueryWithGeneral(req, product)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -107,7 +107,7 @@ func (c *SAPAPICaller) callProductSrvAPIRequirementProduct(api, product string) 
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToProduct(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToGeneral(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
@@ -123,7 +123,7 @@ func (c *SAPAPICaller) Plant(product, plant string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementPlant(api, product, plant string) (*sap_api_output_formatter.Plant, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementPlant(api, product, plant string) ([]sap_api_output_formatter.Plant, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -153,7 +153,7 @@ func (c *SAPAPICaller) MRPArea(product, plant, mrpArea string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementMRPArea(api, product, plant, mrpArea string) (*sap_api_output_formatter.MRPArea, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementMRPArea(api, product, plant, mrpArea string) ([]sap_api_output_formatter.MRPArea, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -183,7 +183,7 @@ func (c *SAPAPICaller) Procurement(product, plant string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementProcurement(api, product, plant string) (*sap_api_output_formatter.Procurement, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementProcurement(api, product, plant string) ([]sap_api_output_formatter.Procurement, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -213,7 +213,7 @@ func (c *SAPAPICaller) WorkScheduling(product, plant string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementWorkScheduling(api, product, plant string) (*sap_api_output_formatter.WorkScheduling, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementWorkScheduling(api, product, plant string) ([]sap_api_output_formatter.WorkScheduling, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -243,7 +243,7 @@ func (c *SAPAPICaller) SalesPlant(product, plant string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementSalesPlant(api, product, plant string) (*sap_api_output_formatter.SalesPlant, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementSalesPlant(api, product, plant string) ([]sap_api_output_formatter.SalesPlant, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -273,7 +273,7 @@ func (c *SAPAPICaller) Accounting(product, valuationArea string) {
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementAccounting(api, product, valuationArea string) (*sap_api_output_formatter.Accounting, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementAccounting(api, product, valuationArea string) ([]sap_api_output_formatter.Accounting, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -303,7 +303,7 @@ func (c *SAPAPICaller) SalesOrganization(product, productSalesOrg, productDistri
 	c.log.Info(data)
 }
 
-func (c *SAPAPICaller) callProductSrvAPIRequirementSalesOrganization(api, product, productSalesOrg, productDistributionChnl string) (*sap_api_output_formatter.SalesOrganization, error) {
+func (c *SAPAPICaller) callProductSrvAPIRequirementSalesOrganization(api, product, productSalesOrg, productDistributionChnl string) ([]sap_api_output_formatter.SalesOrganization, error) {
 	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -358,7 +358,7 @@ func (c *SAPAPICaller) setHeaderAPIKeyAccept(req *http.Request) {
 	req.Header.Set("Accept", "application/json")
 }
 
-func (c *SAPAPICaller) getQueryWithProduct(req *http.Request, product string) {
+func (c *SAPAPICaller) getQueryWithGeneral(req *http.Request, product string) {
 	params := req.URL.Query()
 	params.Add("$filter", fmt.Sprintf("Product eq '%s'", product))
 	req.URL.RawQuery = params.Encode()
