@@ -33,7 +33,7 @@ sap-api-integrations-product-master-reads には、次の API をコールする
 * A_ProductPlantSales（品目マスタ - 販売プラントデータ）
 * A_ProductValuationAccount（品目マスタ - 評価エリアデータ）
 * A_ProductSalesDelivery（品目マスタ - 販売組織データ）
-* A_ProductDescription(Product='{Product}',Language='{Language}')（品目マスタ - テキストデータ）  
+* A_ProductDescription（品目マスタ - テキストデータ）  
 
 ## API への 値入力条件 の 初期値
 sap-api-integrations-product-master-reads において、API への値入力条件の初期値は、入力ファイルレイアウトの種別毎に、次の通りとなっています。  
@@ -46,6 +46,8 @@ sap-api-integrations-product-master-reads において、API への値入力条�
 * inoutSDC.Product.Accounting.ValuationArea（評価エリア）
 * inoutSDC.Product.SalesOrganization.ProductSalesOrg（販売組織）
 * inoutSDC.Product.SalesOrganization.ProductDistributionChnl（流通チャネル）
+* inoutSDC.Product.ProductDescription.Language（言語キー）
+* inoutSDC.Product.ProductDescription.ProductDescription（品目テキスト）
 
 ## SAP API Bussiness Hub の API の選択的コール
 
@@ -80,7 +82,7 @@ accepter における データ種別 の指定に基づいて SAP_API_Caller �
 caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
-func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl, language, productDescription string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
@@ -125,9 +127,14 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 				c.SalesOrganization(product, productSalesOrg, productDistributionChnl)
 				wg.Done()
 			}()
-		case "ProductDesc":
+		case "ProductDescByProduct":
 			func() {
-				c.ProductDesc(product)
+				c.ProductDescByProduct(product, language)
+				wg.Done()
+			}()
+		case "ProductDescByDesc":
+			func() {
+				c.ProductDescByDesc(language, productDescription)
 				wg.Done()
 			}()
 		default:
