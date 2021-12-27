@@ -4,7 +4,7 @@
 	"level": "INFO",
 	"message": [
 		{
-			"Material": "D20_EPDM_SMRT_S",
+			"Product": "D20_EPDM_SMRT_S",
 			"Plant": "1010",
 			"LoadingGroup": "0001",
 			"AvailabilityCheckType": "SR"

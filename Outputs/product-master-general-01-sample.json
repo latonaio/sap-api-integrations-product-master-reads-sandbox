@@ -4,7 +4,7 @@
 	"level": "INFO",
 	"message": [
 		{
-			"Material": "A001",
+			"Product": "A001",
 			"Product_desc": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product('A001')/to_Description",
 			"BaseUnit": "AU",
 			"ValidityStartDate": "",

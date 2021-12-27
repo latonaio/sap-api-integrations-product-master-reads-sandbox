@@ -5,14 +5,14 @@ type ProductMaster struct {
 	Result        bool   `json:"result"`
 	RedisKey      string `json:"redis_key"`
 	Filepath      string `json:"filepath"`
-	Product       string `json:"material"`
+	Product       string `json:"Product"`
 	APISchema     string `json:"api_schema"`
 	MaterialCode  string `json:"material_code"`
 	Deleted       string `json:"deleted"`
 }
 
 type General struct {
-	Product             string `json:"Material"`
+	Product             string `json:"Product"`
 	ProductDescription  string `json:"Product_desc"`
 	BaseUnit            string `json:"BaseUnit"`
 	ValidityStartDate   string `json:"ValidityStartDate"`
@@ -25,7 +25,7 @@ type General struct {
 }
 
 type Plant struct {
-	Product                       string `json:"Material"`
+	Product                       string `json:"Product"`
 	Plant                         string `json:"Plant"`
 	PurchasingGroup               string `json:"PurchasingGroup"`
 	ProductionInvtryManagedLoc    string `json:"ProductionInvtryManagedLoc"`
@@ -47,7 +47,7 @@ type Plant struct {
 }
 
 type MRPArea struct {
-	Product                       string `json:"Material"`
+	Product                       string `json:"Product"`
 	Plant                         string `json:"Plant"`
 	MRPArea                       string `json:"MRPArea"`
 	MRPType                       string `json:"MRPType"`
@@ -72,7 +72,7 @@ type MRPArea struct {
 }
 
 type WorkScheduling struct {
-	Product                       string `json:"Material"`
+	Product                       string `json:"Product"`
 	Plant                         string `json:"Plant"`
 	ProductionInvtryManagedLoc    string `json:"ProductionInvtryManagedLoc"`
 	ProductProcessingTime         string `json:"ProductProcessingTime"`
@@ -84,21 +84,21 @@ type WorkScheduling struct {
 }
 
 type Procurement struct {
-	Product                     string `json:"Material"`
+	Product                     string `json:"Product"`
 	Plant                       string `json:"Plant"`
 	IsAutoPurOrdCreationAllowed bool   `json:"IsAutoPurOrdCreationAllowed"`
 	IsSourceListRequired        bool   `json:"IsSourceListRequired"`
 }
 
 type SalesPlant struct {
-	Product               string `json:"Material"`
+	Product               string `json:"Product"`
 	Plant                 string `json:"Plant"`
 	LoadingGroup          string `json:"LoadingGroup"`
 	AvailabilityCheckType string `json:"AvailabilityCheckType"`
 }
 
 type Accounting struct {
-	Product             string `json:"Material"`
+	Product             string `json:"Product"`
 	ValuationArea       string `json:"ValuationArea"`
 	ValuationClass      string `json:"ValuationClass"`
 	StandardPrice       string `json:"StandardPrice"`
@@ -110,7 +110,7 @@ type Accounting struct {
 }
 
 type SalesOrganization struct {
-	Product                        string `json:"Material"`
+	Product                        string `json:"Product"`
 	ProductSalesOrg                string `json:"ProductSalesOrg"`
 	ProductDistributionChnl        string `json:"ProductDistributionChnl"`
 	SupplyingPlant                 string `json:"SupplyingPlant"`
