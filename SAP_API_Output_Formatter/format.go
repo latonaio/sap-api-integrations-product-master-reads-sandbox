@@ -24,16 +24,23 @@ func ConvertToGeneral(raw []byte, l *logger.Logger) ([]General, error) {
 	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
 		data := pm.D.Results[i]
 		general = append(general, General{
-		Product:             data.Product,
-		ProductDescription:  data.ToDescription.Deferred.URI,
-		BaseUnit:            data.BaseUnit,
-		ValidityStartDate:   data.ValidityStartDate,
-		ProductGroup:        data.ProductGroup,
-		Division:            data.Division,
-		GrossWeight:         data.GrossWeight,
-		WeightUnit:          data.WeightUnit,
-		SizeOrDimensionText: data.SizeOrDimensionText,
-		ProductStandardID:   data.ProductStandardID,
+	Product:                   data.Product,
+	IndustrySector:            data.IndustrySector,
+	ProductType:               data.ProductType,
+	BaseUnit:                  data.BaseUnit,
+	ValidityStartDate:         data.ValidityStartDate,
+	ProductGroup:              data.ProductGroup,
+	Division:                  data.Division,
+	GrossWeight:               data.GrossWeight,
+	WeightUnit:                data.WeightUnit,
+	SizeOrDimensionText:       data.SizeOrDimensionText,
+	ProductStandardID:         data.ProductStandardID,
+	CreationDate:              data.CreationDate,
+	LastChangeDate:            data.LastChangeDate,
+	IsMarkedForDeletion:       data.IsMarkedForDeletion,
+	NetWeight:                 data.NetWeight,
+	ChangeNumber:              data.ChangeNumber,
+	ToProductDesc:             data.ToProductDesc.Deferred.URI,
 		})
 	}
 
@@ -294,4 +301,29 @@ func ConvertToProductDesc(raw []byte, l *logger.Logger) ([]ProductDesc, error) {
 	}
 
 	return productDesc, nil
+}
+
+func ConvertToToProductDesc(raw []byte, l *logger.Logger) ([]ToProductDesc, error) {
+	pm := &responses.ToProductDesc{}
+	err := json.Unmarshal(raw, pm)
+	if err != nil {
+		return nil, xerrors.Errorf("cannot convert to ToProductDesc. unmarshal error: %w", err)
+	}
+	if len(pm.D.Results) == 0 {
+		return nil, xerrors.New("Result data is not exist")
+	}
+	if len(pm.D.Results) > 10 {
+		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
+	}
+	toProductDesc := make([]ToProductDesc, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		toProductDesc = append(toProductDesc, ToProductDesc{
+		Product:            data.Product,
+		Language:           data.Language,
+		ProductDescription: data.ProductDescription,
+		})
+	}
+
+	return toProductDesc, nil
 }

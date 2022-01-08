@@ -90,12 +90,19 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 }
 
 func (c *SAPAPICaller) General(product string) {
-	data, err := c.callProductSrvAPIRequirementGeneral("A_Product", product)
+	generalData, err := c.callProductSrvAPIRequirementGeneral("A_Product", product)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(data)
+	c.log.Info(generalData)
+	
+	productDescData, err := c.callToProductDesc(generalData[0].ToProductDesc)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(productDescData)
 }
 
 func (c *SAPAPICaller) callProductSrvAPIRequirementGeneral(api, product string) ([]sap_api_output_formatter.General, error) {
@@ -113,6 +120,24 @@ func (c *SAPAPICaller) callProductSrvAPIRequirementGeneral(api, product string) 
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
 	data, err := sap_api_output_formatter.ConvertToGeneral(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
+func (c *SAPAPICaller) callToProductDesc(url string) ([]sap_api_output_formatter.ToProductDesc, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToProductDesc(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
