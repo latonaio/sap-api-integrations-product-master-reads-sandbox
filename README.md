@@ -33,6 +33,7 @@ sap-api-integrations-product-master-reads には、次の API をコールする
 * A_ProductPlantSales（品目マスタ - 販売プラントデータ）
 * A_ProductValuationAccount（品目マスタ - 評価エリアデータ）
 * A_ProductSalesDelivery（品目マスタ - 販売組織データ）
+* A_ProductPlantQualityMgmt（品目マスタ - 品質管理データ）
 * A_ProductDescription（品目マスタ - テキストデータ）
 * ToProductDesc（品目マスタ - テキストデータ ※To）
 
@@ -136,6 +137,11 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 		case "ProductDescByDesc":
 			func() {
 				c.ProductDescByDesc(language, productDescription)
+				wg.Done()
+			}()
+		case "Quality":
+			func() {
+				c.Quality(product, plant)
 				wg.Done()
 			}()
 		default:
