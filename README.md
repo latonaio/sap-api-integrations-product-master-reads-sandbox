@@ -34,8 +34,8 @@ sap-api-integrations-product-master-reads には、次の API をコールする
 * A_ProductValuation（品目マスタ - 評価エリアデータ）
 * A_ProductSalesDelivery（品目マスタ - 販売組織データ）
 * A_ProductPlantQualityMgmt（品目マスタ - 品質管理データ）
-* A_ProductDescription（品目マスタ - テキストデータ）
 * A_ProductSalesTax（品目マスタ - 販売税データ）
+* A_ProductDescription（品目マスタ - テキストデータ）
 * ToProductDesc（品目マスタ - テキストデータ ※To）
 
 ## API への 値入力条件 の 初期値
