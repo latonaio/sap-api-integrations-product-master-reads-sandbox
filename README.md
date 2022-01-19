@@ -31,7 +31,7 @@ sap-api-integrations-product-master-reads には、次の API をコールする
 * A_ProductPlantProcurement（品目マスタ - 購買データ）
 * A_ProductWorkScheduling（品目マスタ - 作業計画データ）
 * A_ProductPlantSales（品目マスタ - 販売プラントデータ）
-* A_ProductValuationAccount（品目マスタ - 評価エリアデータ）
+* A_ProductValuation（品目マスタ - 評価エリアデータ）
 * A_ProductSalesDelivery（品目マスタ - 販売組織データ）
 * A_ProductPlantQualityMgmt（品目マスタ - 品質管理データ）
 * A_ProductDescription（品目マスタ - テキストデータ）
