@@ -26,7 +26,7 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl, language, productDescription string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationArea, productSalesOrg, productDistributionChnl, language, productDescription, country, taxCategory string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
@@ -84,6 +84,11 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 		case "Quality":
 			func() {
 				c.Quality(product, plant)
+				wg.Done()
+			}()
+		case "SalesTax":
+			func() {
+				c.SalesTax(product, country, taxCategory)
 				wg.Done()
 			}()
 		default:
@@ -449,6 +454,36 @@ func (c *SAPAPICaller) callProductSrvAPIRequirementQuality(api, product, plant s
 	return data, nil
 }
 
+func (c *SAPAPICaller) SalesTax(product, country, taxCategory string) {
+	data, err := c.callProductSrvAPIRequirementSalesTax("A_ProductSalesTax", product, country, taxCategory)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(data)
+}
+
+func (c *SAPAPICaller) callProductSrvAPIRequirementSalesTax(api, product, country, taxCategory string) ([]sap_api_output_formatter.SalesTax, error) {
+	url := strings.Join([]string{c.baseURL, "API_PRODUCT_SRV", api}, "/")
+	req, _ := http.NewRequest("GET", url, nil)
+
+	c.setHeaderAPIKeyAccept(req)
+	c.getQueryWithSalesTax(req, product, country, taxCategory)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToSalesTax(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
 func (c *SAPAPICaller) setHeaderAPIKeyAccept(req *http.Request) {
 	req.Header.Set("APIKey", c.apiKey)
 	req.Header.Set("Accept", "application/json")
@@ -517,5 +552,11 @@ func (c *SAPAPICaller) getQueryWithProductDescByDesc(req *http.Request, language
 func (c *SAPAPICaller) getQueryWithQuality(req *http.Request, product, plant string) {
 	params := req.URL.Query()
 	params.Add("$filter", fmt.Sprintf("Product eq '%s' and Plant eq '%s'", product, plant))
+	req.URL.RawQuery = params.Encode()
+}
+
+func (c *SAPAPICaller) getQueryWithSalesTax(req *http.Request, product, country, taxCategory string) {
+	params := req.URL.Query()
+	params.Add("$filter", fmt.Sprintf("Product eq '%s' and Country eq '%s' and TaxCategory eq '%s'", product, country, taxCategory))
 	req.URL.RawQuery = params.Encode()
 }
