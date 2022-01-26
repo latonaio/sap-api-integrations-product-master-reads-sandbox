@@ -162,13 +162,13 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 ```
 
 ## Output  
-本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+本マイクロサービスでは、[golang-logging-library-for-sap](https://github.com/latonaio/golang-logging-library-for-sap) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 品目マスタ の 一般データ が取得された結果の JSON の例です。  
-以下の項目のうち、"Material" ～ "ProductStandardID" は、/SAP_API_Output_Formatter/type.go 内 の Type General {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の項目のうち、"Material" ～ "ProductStandardID" は、/SAP_API_Output_Formatter/type.go 内 の Type General {} による出力結果です。"cursor" ～ "time"は、golang-logging-library-for-sap による 定型フォーマットの出力結果です。  
 
 ```
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L98",
+	"cursor": "/home/ampamman/go/src/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L108",
 	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).General",
 	"level": "INFO",
 	"message": [
@@ -184,14 +184,14 @@ func (c *SAPAPICaller) AsyncGetProductMaster(product, plant, mrpArea, valuationA
 			"WeightUnit": "KG",
 			"SizeOrDimensionText": "",
 			"ProductStandardID": "",
-			"CreationDate": "/Date(1466380800000)/",
-			"LastChangeDate": "/Date(1491868800000)/",
+			"CreationDate": "2016-06-20T09:00:00+09:00",
+			"LastChangeDate": "2017-04-11T09:00:00+09:00",
 			"IsMarkedForDeletion": false,
 			"NetWeight": "0.000",
 			"ChangeNumber": "",
 			"to_Description": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_PRODUCT_SRV/A_Product('A001')/to_Description"
 		}
 	],
-	"time": "2022-01-08T10:38:23.402329+09:00"
+	"time": "2022-01-26T14:51:52.138052513+09:00"
 }
 ```

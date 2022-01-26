@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/latonaio/golang-logging-library/logger"
+	"github.com/latonaio/golang-logging-library-for-sap/logger"
 	"golang.org/x/xerrors"
 )
 
@@ -106,7 +106,7 @@ func (c *SAPAPICaller) General(product string) {
 		return
 	}
 	c.log.Info(generalData)
-	
+
 	productDescData, err := c.callToProductDesc(generalData[0].ToProductDesc)
 	if err != nil {
 		c.log.Error(err)
