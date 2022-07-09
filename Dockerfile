@@ -23,6 +23,5 @@ ENV SERVICE=sap-api-integrations-product-master-reads \
 WORKDIR ${AION_HOME}
 
 COPY --from=builder /go/src/github.com/latonaio/sap-api-integrations-product-master-reads .
-COPY --from=builder /go/src/github.com/latonaio/sample.json .
 
 CMD ["./sap-api-integrations-product-master-reads"]
