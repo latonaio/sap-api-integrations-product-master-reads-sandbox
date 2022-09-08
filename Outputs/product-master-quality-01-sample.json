@@ -1,11 +1,11 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L428",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L411",
 	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Quality",
 	"level": "INFO",
 	"message": [
 		{
-			"Product": "D20_EPDM_SMRT_S",
-			"Plant": "1010",
+			"Product": "21",
+			"Plant": "0001",
 			"MaximumStoragePeriod": "0",
 			"QualityMgmtCtrlKey": "",
 			"MatlQualityAuthorizationGroup": "",
@@ -16,5 +16,5 @@
 			"ProductQualityCertificateType": ""
 		}
 	],
-	"time": "2022-01-08T12:55:17.54553+09:00"
+	"time": "2022-09-08T18:54:36+09:00"
 }

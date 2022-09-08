@@ -90,8 +90,8 @@
 			}
 		},
 		"Sales_Organization": {
-			"ProductSalesOrg": "DE10",
-			"ProductDistributionChnl": "10",
+			"ProductSalesOrg": "0001",
+			"ProductDistributionChnl": "01",
 			"SupplyingPlant": "",
 			"PriceSpecificationProductGroup": "",
 			"AccountDetnProductGroup": "",
