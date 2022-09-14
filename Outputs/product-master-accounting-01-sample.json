@@ -1,19 +1,19 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L299",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L278",
 	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).Accounting",
 	"level": "INFO",
 	"message": [
 		{
 			"Product": "21",
-			"ValuationArea": "0001",
-			"ValuationClass": "7920",
-			"StandardPrice": "1000.00",
-			"PriceUnitQty": "1",
-			"MovingAveragePrice": "0.00",
+			"ValuationArea": "DE10",
+			"ValuationClass": "",
+			"StandardPrice": "",
+			"PriceUnitQty": "",
+			"MovingAveragePrice": "",
 			"PriceLastChangeDate": "",
-			"PlannedPrice": "0.00",
+			"PlannedPrice": "",
 			"IsMarkedForDeletion": false
 		}
 	],
-	"time": "2022-09-08T18:53:17+09:00"
+	"time": "2021-12-27T11:12:32.782359+09:00"
 }

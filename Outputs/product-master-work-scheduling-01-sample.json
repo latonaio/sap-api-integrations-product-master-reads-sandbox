@@ -1,19 +1,19 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L243",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-product-master-reads/SAP_API_Caller/caller.go#L213",
 	"function": "sap-api-integrations-product-master-reads/SAP_API_Caller.(*SAPAPICaller).WorkScheduling",
 	"level": "INFO",
 	"message": [
 		{
-			"Product": "21",
-			"Plant": "0001",
-			"ProductionInvtryManagedLoc": "0001",
+			"Product": "D20_EPDM_SMRT_S",
+			"Plant": "1010",
+			"ProductionInvtryManagedLoc": "101E",
 			"ProductProcessingTime": "0.00",
 			"ProductionSupervisor": "",
 			"ProductProductionQuantityUnit": "",
-			"ProdnOrderIsBatchRequired": "1",
+			"ProdnOrderIsBatchRequired": "",
 			"MatlCompIsMarkedForBackflush": "",
 			"ProductionSchedulingProfile": ""
 		}
 	],
-	"time": "2022-09-08T19:00:42+09:00"
+	"time": "2021-12-22T10:40:47.860661+09:00"
 }
